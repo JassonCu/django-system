@@ -70,12 +70,12 @@ jobs:
       with:
         server_address: smtp.live.com
         server_port: 587
-        username: ${{ secrets.HOTMAIL_EMAIL_USERNAME }}
-        password: ${{ secrets.HOTMAIL_EMAIL_PASSWORD }}
+        username: ${{ vars.HOTMAIL_EMAIL_USERNAME }}
+        password: ${{ vars.HOTMAIL_EMAIL_PASSWORD }}
         subject: "Django CI Notification - Success"
         body: "The Django CI workflow has completed successfully."
-        from: "${{ secrets.MY_EMAIL_ADDRESS }}"
-        to: "${{ secrets.EMAIL_RECIPIENT }}"
+        from: "${{ vars.MY_EMAIL_ADDRESS }}"
+        to: "${{ vars.EMAIL_RECIPIENT }}"
 
     - name: Send Email Notification on Failure
       if: ${{ always() && (steps.run-tests.outcome != 'success' || steps.run-tests.outputs.style-check.outcome != 'success') }}
@@ -83,9 +83,9 @@ jobs:
       with:
         server_address: smtp.live.com
         server_port: 587
-        username: ${{ secrets.HOTMAIL_EMAIL_USERNAME }}
-        password: ${{ secrets.HOTMAIL_EMAIL_PASSWORD }}
+        username: ${{ vars.HOTMAIL_EMAIL_USERNAME }}
+        password: ${{ vars.HOTMAIL_EMAIL_PASSWORD }}
         subject: "Django CI Notification - Failure"
         body: "The Django CI workflow has failed. Please check the logs for details."
-        from: "${{ secrets.MY_EMAIL_ADDRESS }}"
-        to: "${{ secrets.EMAIL_RECIPIENT }}"
+        from: "${{ vars.MY_EMAIL_ADDRESS }}"
+        to: "${{ vars.EMAIL_RECIPIENT }}"
