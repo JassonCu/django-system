@@ -1,0 +1,85 @@
+name: Django CI with Email Notifications
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_run:
+    workflows: ["Django CI"]
+    branches:
+      - main
+      - develop
+    types:
+      - completed
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.12.0
+
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Auto-format code with autopep8
+      run: |
+        autopep8 --in-place --recursive .
+
+    - name: Check code style with Flake8
+      run: |
+        flake8 --ignore=E501,W291 .
+
+    - name: Run Tests
+      id: run-tests
+      run: |
+        python manage.py test
+
+    - name: Send Email Notification on Success
+      if: ${{ always() && steps.run-tests.outcome == 'success' && steps.run-tests.outputs.style-check.outcome == 'success' }}
+      uses: dawidd6/action-send-mail@v2
+      with:
+        server_address: smtp.live.com
+        server_port: 587
+        username: ${{ secrets.HOTMAIL_EMAIL_USERNAME }}
+        password: ${{ secrets.HOTMAIL_EMAIL_PASSWORD }}
+        subject: "Django CI Notification - Success"
+        body: "The Django CI workflow has completed successfully."
+        from: "${{ secrets.MY_EMAIL_ADDRESS }}"
+        to: "${{ secrets.EMAIL_RECIPIENT }}"
+        tls: true
+
+    - name: Send Email Notification on Failure
+      if: ${{ always() && (steps.run-tests.outcome != 'success' || steps.run-tests.outputs.style-check.outcome != 'success') }}
+      uses: dawidd6/action-send-mail@v2
+      with:
+        server_address: smtp.live.com
+        server_port: 587
+        username: ${{ secrets.HOTMAIL_EMAIL_USERNAME }}
+        password: ${{ secrets.HOTMAIL_EMAIL_PASSWORD }}
+        subject: "Django CI Notification - Failure"
+        body: "The Django CI workflow has failed. Please check the logs for details."
+        from: "${{ secrets.MY_EMAIL_ADDRESS }}"
+        to: "${{ secrets.EMAIL_RECIPIENT }}"
+        tls: true
