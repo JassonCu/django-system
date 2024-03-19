@@ -69,6 +69,7 @@ jobs:
       uses: dawidd6/action-send-mail@v2
       with:
         server_address: smtp.live.com
+        username: ${{ secrets.HOTMAIL_EMAIL_USERNAME }}
         server_port: 587
         subject: "Django CI Notification - Success"
         body: "The Django CI workflow has completed successfully."
@@ -80,6 +81,7 @@ jobs:
       uses: dawidd6/action-send-mail@v2
       with:
         server_address: smtp.live.com
+        username: ${{ secrets.HOTMAIL_EMAIL_USERNAME }}
         server_port: 587
         subject: "Django CI Notification - Failure"
         body: "The Django CI workflow has failed. Please check the logs for details."
