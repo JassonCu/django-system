@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
-from decouple import config
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-CURRENT_HOST = config('CURRENT_HOST')
+CURRENT_HOST = 'http://127.0.0.1:8000'
 
 # Application definition
 
@@ -129,12 +127,17 @@ REST_FRAMEWORK = {
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
+STATIC_URL = '/static/'
 
-STATIC_URL = config("STATIC_URL")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]
+
 # Configuraciones de media
-MEDIA_URL = config("MEDIA_URL")
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(STATICFILES_DIRS[0], 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -143,4 +146,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SIMPLE_HISTORY_FILEFIELD_TO_CHARFIELD = True
 
-SESSION_EXPIRE_SECONDS = 60 * float(config('SESSION_MIN'))
+SESSION_EXPIRE_SECONDS = 60 * 60 * 8  # 8 horas
