@@ -76,7 +76,6 @@ jobs:
         body: "The Django CI workflow has completed successfully."
         from: "${{ secrets.MY_EMAIL_ADDRESS }}"
         to: "${{ secrets.EMAIL_RECIPIENT }}"
-        tls: true
 
     - name: Send Email Notification on Failure
       if: ${{ always() && (steps.run-tests.outcome != 'success' || steps.run-tests.outputs.style-check.outcome != 'success') }}
@@ -90,4 +89,3 @@ jobs:
         body: "The Django CI workflow has failed. Please check the logs for details."
         from: "${{ secrets.MY_EMAIL_ADDRESS }}"
         to: "${{ secrets.EMAIL_RECIPIENT }}"
-        tls: true
