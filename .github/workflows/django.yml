@@ -50,6 +50,10 @@ jobs:
     - name: Auto-format code with autopep8
       run: |
         autopep8 --in-place --recursive .
+    
+    - name: Install flake8
+      run: |
+        python -m pip install flake8
 
     - name: Check code style with Flake8
       run: |
