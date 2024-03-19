@@ -70,7 +70,7 @@ jobs:
       with:
         server_address: smtp.live.com
         server_port: 587
-        user: ${{ secrets.HOTMAIL_EMAIL_USERNAME }}
+        username: ${{ secrets.HOTMAIL_EMAIL_USERNAME }}
         password: ${{ secrets.HOTMAIL_EMAIL_PASSWORD }}
         subject: "Django CI Notification - Success"
         body: "The Django CI workflow has completed successfully."
@@ -83,7 +83,7 @@ jobs:
       with:
         server_address: smtp.live.com
         server_port: 587
-        user: ${{ secrets.HOTMAIL_EMAIL_USERNAME }}
+        username: ${{ secrets.HOTMAIL_EMAIL_USERNAME }}
         password: ${{ secrets.HOTMAIL_EMAIL_PASSWORD }}
         subject: "Django CI Notification - Failure"
         body: "The Django CI workflow has failed. Please check the logs for details."
