@@ -3,7 +3,7 @@ from django.db import models
 
 class RoleManager(models.Manager):
     """
-    Manejador de roles de empresas que permite el control en creacion, edicion y obtencion
+    Enterprise role manager that allows control over creation, editing, and retrieval
     """
 
     def get_groups(self):
