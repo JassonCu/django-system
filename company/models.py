@@ -1,5 +1,7 @@
+from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from simple_history.models import HistoricalRecords
 from .managers import *
 from django.utils import timezone
 from simple_history.models import HistoricalRecords
@@ -15,7 +17,10 @@ class Role(models.Model):
     name = models.CharField(_('Nombre'), max_length=50)
     name_spanish = models.CharField(
         _('Nombre Español'), max_length=50, default='')
+    name_spanish = models.CharField(
+        _('Nombre Español'), max_length=50, default='')
     description = models.CharField(_('Descripción'), max_length=150)
+
 
     def __str__(self):
         return self.name
