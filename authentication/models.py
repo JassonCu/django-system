@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import Group, Permission
 from django.utils.translation import gettext_lazy as _
 from .managers import UserManager
+from company import models as company_models
 
 
 class User(AbstractUser):
@@ -39,6 +40,9 @@ class User(AbstractUser):
         'Grupos'), related_name='custom_user_groups')
     user_permissions = models.ManyToManyField(Permission, verbose_name=_(
         'Permisos de Usuario'), related_name='custom_user_permissions')
+    company = models.ManyToManyField(
+        company_models.Company, related_name='user_company', verbose_name=_('Empresa'))
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
