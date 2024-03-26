@@ -27,13 +27,18 @@ class User(AbstractUser):
         _('Public key'), max_length=100, blank=False, default='')
     private_key = models.CharField(
         _('Private key'), max_length=100, blank=False, default='')
+    two_factor_auth_key = models.CharField(
+        _('2do Factor de Autenticación Key'), max_length=16, default='')
     phone_number = models.CharField(
         _('Número de teléfono'), max_length=25, blank=False, default='')
+    two_factor_auth_method = models.IntegerField(
+        _('Metodo 2do Factor de Autenticación'), default=0)
     receive_emails = models.BooleanField(
         _('Recibir correos electrónicos'), default=True)
-    groups = models.ManyToManyField(Group, related_name='users')
-    user_permissions = models.ManyToManyField(Permission, related_name='users')
-
+    groups = models.ManyToManyField(Group, verbose_name=_(
+        'Grupos'), related_name='custom_user_groups')
+    user_permissions = models.ManyToManyField(Permission, verbose_name=_(
+        'Permisos de Usuario'), related_name='custom_user_permissions')
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
